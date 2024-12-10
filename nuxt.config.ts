@@ -5,4 +5,5 @@ export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxtjs/stylelint-module', '@pinia/nuxt'],
   eslint: {},
   stylelint: {},
+  css: ['~/styles/main.scss'],
 });
