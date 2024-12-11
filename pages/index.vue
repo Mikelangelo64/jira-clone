@@ -2,6 +2,8 @@
   <NuxtLayout name="main">
     <div class="hello">HELLO</div>
     <v-btn>Button!</v-btn>
+
+    <Workspace />
   </NuxtLayout>
 </template>
 

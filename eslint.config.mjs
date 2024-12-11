@@ -23,6 +23,7 @@ export default withNuxt([
       'prettier/prettier': 'error',
       ...JsRules,
       ...prettierPlugin.configs.rules,
+      'vue/multi-word-component-names': 0,
     },
   },
 ]).override('nuxt/typescript/rules', {
