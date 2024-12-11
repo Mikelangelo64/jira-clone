@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <NuxtLayout name="main">
     <div class="hello">HELLO</div>
     <v-btn>Button!</v-btn>
-  </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts"></script>
