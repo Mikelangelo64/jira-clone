@@ -1,3 +1,5 @@
+import type { TId } from './general';
+
 export enum ETaskStatus {
   TODO = 'TODO',
   IN_PROGRESS = 'In progress',
@@ -11,11 +13,16 @@ export enum ETaskPriority {
 }
 
 export interface ITask {
-  id: string;
+  id: TId;
   title: string;
   description: string;
   assignee: string;
   reporter: string;
   status: ETaskStatus;
   priority: ETaskPriority;
+}
+
+export interface IUpdateTaskProps {
+  id: ITask['id'];
+  data: Partial<Omit<ITask, 'id'>>;
 }
