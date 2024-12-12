@@ -1,7 +1,6 @@
 <template>
   <NuxtLayout name="main">
-    <div class="hello">HELLO</div>
-    <v-btn>Button!</v-btn>
+    <div class="hello">Jira clone by Mykhailo Arkhypov</div>
 
     <Workspace />
   </NuxtLayout>

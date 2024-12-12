@@ -1,9 +1,85 @@
 <template>
-  <div>group</div>
+  <div class="group">
+    <p class="group-title">{{ title }}</p>
+
+    <div ref="listElement" class="group-list">
+      <v-card
+        v-for="task in tasks"
+        :key="task.id"
+        :title="task.title"
+        :subtitle="task.status"
+        :text="task.assignee"
+        class="group-list__item"
+        variant="tonal"
+      />
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useDraggable } from 'vue-draggable-plus';
+import { TASKS_DRAG_GROUP } from '~/constants/general';
+import type { IGroup } from '~/types/group';
+import type { ITask } from '~/types/task';
+
+type TProps = Omit<IGroup, 'tasks'>;
+
+const { title, id } = defineProps<TProps>();
+
+const appStore = useAppStore();
+const tasks = ref(appStore.getTasksByGroup(id));
+
+const listElement = ref<HTMLElement | null>(null);
+
+useDraggable(listElement, tasks, {
+  animation: 150,
+  ghostClass: 'ghost',
+  dragClass: 'draggable',
+  group: TASKS_DRAG_GROUP,
+  onUpdate: () => {
+    // console.log('update list ' + id);
+  },
+  onAdd: evt => {
+    const { data: addedTaskData } = evt as unknown as {
+      data: ITask | undefined;
+    };
+    if (!addedTaskData) {
+      return;
+    }
+
+    const addedTask = tasks.value.find(item => item.id === addedTaskData.id);
+
+    if (!addedTask) {
+      return;
+    }
+
+    tasks.value = tasks.value.map(item => {
+      if (item.id !== addedTaskData.id) {
+        return item;
+      }
+
+      item.status = title;
+      return item;
+    });
+
+    appStore.updateTask({ id: addedTaskData.id, data: { status: title } });
+  },
+  onRemove: () => {
+    // console.log('remove list ' + id);
+  },
+});
+</script>
 
 <style scoped lang="scss">
-/* .group {} */
+.group {
+  padding: 20px;
+  background-color: rgb(var(--v-theme-surface));
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    height: 100%;
+  }
+}
 </style>
