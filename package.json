@@ -14,11 +14,14 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.5.5",
+    "@vee-validate/zod": "^4.14.7",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.4",
+    "vee-validate": "^4.14.7",
     "vue": "latest",
     "vue-draggable-plus": "^0.6.0",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.5.7",
