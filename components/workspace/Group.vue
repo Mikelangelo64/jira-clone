@@ -27,9 +27,19 @@ type TProps = Omit<IGroup, 'tasks'>;
 const { title, id } = defineProps<TProps>();
 
 const appStore = useAppStore();
-const tasks = ref(appStore.getTasksByGroup(id));
+const { tasks: tasksAll, groups } = storeToRefs(appStore);
+const tasks = ref<ITask[]>([]);
 
 const listElement = ref<HTMLElement | null>(null);
+
+watchEffect(() => {
+  const groupData = groups.value.find(group => group.id === id);
+  if (!groupData) {
+    return;
+  }
+
+  tasks.value = tasksAll.value.filter(item => groupData.title === item.status);
+});
 
 useDraggable(listElement, tasks, {
   animation: 150,

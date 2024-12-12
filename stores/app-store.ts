@@ -7,17 +7,6 @@ export const useAppStore = defineStore('app', () => {
   const groups = ref<Omit<IGroup, 'tasks'>[]>([]);
   const tasks = ref<ITask[]>([]);
 
-  // getters
-  const getTasksByGroup = (groupId: IGroup['id']): ITask[] => {
-    const groupData = groups.value.find(group => group.id === groupId);
-    if (!groupData) {
-      return [];
-    }
-
-    const result = tasks.value.filter(task => task.status === groupData.title);
-    return result;
-  };
-
   // actions
   const initGroups = (groupsProp: IGroup[]) => {
     groups.value = groupsProp.map(item => {
@@ -50,6 +39,10 @@ export const useAppStore = defineStore('app', () => {
     tasks.value = [...tasksProp];
   };
 
+  const addTask = (newTask: ITask) => {
+    tasks.value.push(newTask);
+  };
+
   const updateTask = ({ id, data }: IUpdateTaskProps) => {
     if (
       tasks.value.length === 0 ||
@@ -73,10 +66,10 @@ export const useAppStore = defineStore('app', () => {
   return {
     groups,
     tasks,
-    getTasksByGroup,
     initGroups,
     updateGroup,
     initTasks,
+    addTask,
     updateTask,
   };
 });
