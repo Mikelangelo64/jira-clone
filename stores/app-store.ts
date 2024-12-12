@@ -1,25 +1,82 @@
 import { defineStore } from 'pinia';
+import type { IUpdateGroupProps, IGroup } from '~/types/group';
+import type { IUpdateTaskProps, ITask } from '~/types/task';
 
 export const useAppStore = defineStore('app', () => {
   // state
-  const count = ref(1);
+  const groups = ref<Omit<IGroup, 'tasks'>[]>([]);
+  const tasks = ref<ITask[]>([]);
 
   // getters
-  const doubleCount = computed(() => count.value * 2);
+  const getTasksByGroup = (groupId: IGroup['id']): ITask[] => {
+    const groupData = groups.value.find(group => group.id === groupId);
+    if (!groupData) {
+      return [];
+    }
 
-  // actions
-  const increment = () => {
-    count.value++;
+    const result = tasks.value.filter(task => task.status === groupData.title);
+    return result;
   };
 
-  const decrement = () => {
-    count.value = count.value - 1 > 0 ? count.value - 1 : count.value;
+  // actions
+  const initGroups = (groupsProp: IGroup[]) => {
+    groups.value = groupsProp.map(item => {
+      const { tasks, ...result } = item;
+      return result;
+    });
+  };
+
+  const updateGroup = ({ id, data }: IUpdateGroupProps) => {
+    if (
+      groups.value.length === 0 ||
+      (Object.keys(data).length === 0 && data.constructor === Object)
+    ) {
+      return;
+    }
+
+    groups.value = groups.value.map(item => {
+      if (item.id !== id) {
+        return item;
+      }
+
+      return {
+        ...item,
+        ...data,
+      };
+    });
+  };
+
+  const initTasks = (tasksProp: ITask[]) => {
+    tasks.value = [...tasksProp];
+  };
+
+  const updateTask = ({ id, data }: IUpdateTaskProps) => {
+    if (
+      tasks.value.length === 0 ||
+      (Object.keys(data).length === 0 && data.constructor === Object)
+    ) {
+      return;
+    }
+
+    tasks.value = tasks.value.map(item => {
+      if (item.id !== id) {
+        return item;
+      }
+
+      return {
+        ...item,
+        ...data,
+      };
+    });
   };
 
   return {
-    count,
-    doubleCount,
-    increment,
-    decrement,
+    groups,
+    tasks,
+    getTasksByGroup,
+    initGroups,
+    updateGroup,
+    initTasks,
+    updateTask,
   };
 });
