@@ -11,7 +11,11 @@
         :text="task.assignee"
         class="group-list__item"
         variant="tonal"
-      />
+      >
+        <template #actions>
+          <DialogForm button-text="Edit task" :task-id="task.id" />
+        </template>
+      </v-card>
     </div>
   </div>
 </template>

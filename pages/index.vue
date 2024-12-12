@@ -2,6 +2,10 @@
   <NuxtLayout name="main">
     <div class="hello">Jira clone by Mykhailo Arkhypov</div>
 
+    <div>
+      <DialogForm button-text="Add new task" />
+    </div>
+
     <Workspace />
   </NuxtLayout>
 </template>
