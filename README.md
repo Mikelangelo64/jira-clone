@@ -20,7 +20,7 @@ git clone https://github.com/Mikelangelo64/jira-clone.git jira-clone
 2. Navigate to the directory:
 
 ```bash
-cd vaultwow_website
+cd jira-clone
 ```
 
 3. Install the required dependencies:
