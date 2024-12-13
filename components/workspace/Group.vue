@@ -50,10 +50,8 @@ useDraggable(listElement, tasks, {
   ghostClass: 'ghost',
   dragClass: 'draggable',
   group: TASKS_DRAG_GROUP,
-  onUpdate: () => {
-    // console.log('update list ' + id);
-  },
   onAdd: evt => {
+    // library mismatch type
     const { data: addedTaskData } = evt as unknown as {
       data: ITask | undefined;
     };
@@ -77,9 +75,6 @@ useDraggable(listElement, tasks, {
     });
 
     appStore.updateTask({ id: addedTaskData.id, data: { status: title } });
-  },
-  onRemove: () => {
-    // console.log('remove list ' + id);
   },
 });
 </script>
